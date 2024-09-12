@@ -20,7 +20,7 @@ public class ImageCompressionService {
     }
 
     @Async
-    public CompletableFuture<Void> processImages(List<ProductImage> products, String requestId) {
+    public CompletableFuture<Void> processImages(List<ProductImage> products) {
         for (ProductImage product : products) {
             // For each image URL, compress the image and store the output URL
             List<String> outputUrls = new ArrayList<>();
@@ -28,17 +28,22 @@ public class ImageCompressionService {
             for (String url : product.getImageUrls()) {
                 String compressedImageUrl = compressImage(url);
                 outputUrls.add(compressedImageUrl);
-                // productRepository.save(outputUrls);
             }
-            
+            product.setOutputImageUrls(outputUrls);
+            product.setStatus("Compressed");
+            productRepository.save(product);
             // Save output URLs and processing status in the database
         }
+        for(ProductImage product:products){
+            product.setStatus("Successfully Processed");
+            productRepository.save(product);
+        }
+
         // After processing, update the status and trigger the webhook
         return CompletableFuture.completedFuture(null);
     }
 
     private String compressImage(String imageUrl) {
-    // Compress the image and return the new image URL
-    return imageUrl.replace("public", "compressed"); // mocking compression
+        return imageUrl.replace("image", "image-output"); 
     }
 }

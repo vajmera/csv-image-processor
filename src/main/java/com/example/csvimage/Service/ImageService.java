@@ -31,6 +31,14 @@ public class ImageService {
         // Start asynchronous processing of images
         List<ProductImage> imageList=csvParserService.csvParser(file);
         String requestId = UUID.randomUUID().toString();
+
+        for(ProductImage product:imageList){
+            product.setRequestId(requestId);
+            product.setStatus("Not Processed");
+            productRepository.save(product);
+        }
+        imageCompressionService.processImages(imageList);
+       
         // Save the requestId and initial status in DB
         return requestId;
     }

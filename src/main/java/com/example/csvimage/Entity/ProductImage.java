@@ -23,17 +23,17 @@ public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String requestId;
     private String serialNumber;
     private String productName;
-    @ElementCollection
     private List<String> imageUrls;
-    @ElementCollection
     private List<String> outputImageUrls;
-    private String status; // e.g., "Pending", "Processing", "Completed"
-    public ProductImage(String serialNumber, String productName, List<String> imageUrls) {
+    private String status; 
+    public ProductImage(String serialNumber, String productName, List<String> imageUrls, String requestId) {
         this.serialNumber = serialNumber;
         this.productName = productName;
         this.imageUrls = imageUrls;
+        this.requestId=requestId;
     }
     @Override
     public String toString() {

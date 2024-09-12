@@ -8,5 +8,5 @@ import com.example.csvimage.Entity.ProductImage;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductImage,Long>{
-    // List<ProductImage> findById(Integer requestId);
+    List<ProductImage> findByRequestId(String requestId);
 }
