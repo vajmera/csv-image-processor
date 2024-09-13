@@ -1,8 +1,8 @@
 package com.example.csvimage.Service;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -14,13 +14,17 @@ import com.example.csvimage.Repository.ProductRepository;
 @Service
 public class ImageCompressionService {
     private ProductRepository productRepository;
+    private WebhookService webhookService;
+    
     @Autowired
-    public ImageCompressionService(ProductRepository productRepository) {
+    public ImageCompressionService(ProductRepository productRepository, WebhookService webhookService) {
         this.productRepository = productRepository;
+        this.webhookService = webhookService;
     }
 
     @Async
     public CompletableFuture<Void> processImages(List<ProductImage> products) {
+        String requestId="";
         for (ProductImage product : products) {
             // For each image URL, compress the image and store the output URL
             List<String> outputUrls = new ArrayList<>();
@@ -35,11 +39,12 @@ public class ImageCompressionService {
             // Save output URLs and processing status in the database
         }
         for(ProductImage product:products){
-            product.setStatus("Successfully Processed");
+            product.setStatus("Successfully Compressed");
             productRepository.save(product);
         }
+        requestId=products.get(0).getRequestId();
 
-        // After processing, update the status and trigger the webhook
+         webhookService.triggerWebhook(requestId);
         return CompletableFuture.completedFuture(null);
     }
 

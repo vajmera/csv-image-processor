@@ -34,6 +34,10 @@ public class ImageUpload {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing the file.");
         }
     }
+    @PostMapping("/download")
+    public ResponseEntity<String>downloadCSVFile(@RequestParam("Id") String Id){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Web socket ran succesfully");
+    }
 }
 
 
