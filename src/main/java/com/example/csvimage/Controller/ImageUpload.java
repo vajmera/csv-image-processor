@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,9 +36,8 @@ public class ImageUpload {
         }
     }
     @PostMapping("/download")
-    public ResponseEntity<String>downloadCSVFile(@RequestParam("Id") String Id){
-        System.out.println("HELLOWORLD");
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Web socket ran succesfully");
+    public ResponseEntity<String>downloadCSVFile(@RequestBody String payload){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Compression successful acknowledged by websocket");
     }
 }
 
