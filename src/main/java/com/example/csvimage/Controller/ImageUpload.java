@@ -36,6 +36,7 @@ public class ImageUpload {
     }
     @PostMapping("/download")
     public ResponseEntity<String>downloadCSVFile(@RequestParam("Id") String Id){
+        System.out.println("HELLOWORLD");
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Web socket ran succesfully");
     }
 }

@@ -26,7 +26,6 @@ public class ImageCompressionService {
     public CompletableFuture<Void> processImages(List<ProductImage> products) {
         String requestId="";
         for (ProductImage product : products) {
-            // For each image URL, compress the image and store the output URL
             List<String> outputUrls = new ArrayList<>();
 
             for (String url : product.getImageUrls()) {
@@ -36,19 +35,31 @@ public class ImageCompressionService {
             product.setOutputImageUrls(outputUrls);
             product.setStatus("Compressed");
             productRepository.save(product);
-            // Save output URLs and processing status in the database
         }
         for(ProductImage product:products){
             product.setStatus("Successfully Compressed");
             productRepository.save(product);
         }
-        requestId=products.get(0).getRequestId();
+        try {
+            Thread.sleep(5000);
+            requestId=products.get(0).getRequestId();
 
-         webhookService.triggerWebhook(requestId);
+            webhookService.triggerWebhook(requestId);
+
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return CompletableFuture.completedFuture(null);
     }
 
     private String compressImage(String imageUrl) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return imageUrl.replace("image", "image-output"); 
     }
 }

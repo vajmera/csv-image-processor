@@ -1,5 +1,6 @@
 package com.example.csvimage.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ImageStatus {
     }
 
     @GetMapping("status")
-public ResponseEntity<List<ProductImage>> getStatus(@RequestParam("id") String requestId){
+public ResponseEntity<List<String>> getStatus(@RequestParam("id") String requestId){
     if (requestId == null || requestId.isEmpty()) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
@@ -32,6 +33,10 @@ public ResponseEntity<List<ProductImage>> getStatus(@RequestParam("id") String r
     if (lst.isEmpty()) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-    return ResponseEntity.ok(lst);
+    List<String>statusString=new ArrayList<>();
+    for(ProductImage pimage:lst){
+        statusString.add(pimage.getStatus());
+    }
+    return ResponseEntity.ok(statusString);
 }
 }

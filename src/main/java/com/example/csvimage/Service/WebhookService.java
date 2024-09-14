@@ -20,6 +20,7 @@ public class WebhookService {
     public void triggerWebhook(String requestId){
         RestTemplate restTemplate=new RestTemplate();
         String url="http://localhost:8080/images/download";
+        System.out.println("Inside webhook");
         List<ProductImage> productImageLst=productRepository.findByRequestId(requestId);
         restTemplate.postForEntity(url, productImageLst, String.class);
     }

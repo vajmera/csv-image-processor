@@ -26,9 +26,7 @@ public class ImageService {
     }
 
     public String processFile(MultipartFile file) {
-        // Save file locally or in a temp directory
-        // Parse the CSV
-        // Start asynchronous processing of images
+    
         List<ProductImage> imageList=csvParserService.csvParser(file);
         String requestId = UUID.randomUUID().toString();
 
@@ -39,7 +37,6 @@ public class ImageService {
         }
         imageCompressionService.processImages(imageList);
        
-        // Save the requestId and initial status in DB
         return requestId;
     }
 }
